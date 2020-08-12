@@ -7,7 +7,7 @@ indicator modules](https://my.amperka.com/modules/SegM8).
 
 ### `SegM8(pin_CE: int, device_count: int = 1)`
 
-Construct a new SegM8 object that uses the default hardware SPI bus.
+Construct a new SegM8 object that uses the default hardware SPI bus (SPI0).
 
 - `pin_CE`: the chip enable (also known as chip select or slave select) pin used to control the
   shift-register latch. It can take the values **0** or **1**, which corresponds to the **CE0** or
