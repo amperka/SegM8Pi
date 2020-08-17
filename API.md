@@ -19,34 +19,66 @@ Construct a new SegM8 object that uses the default hardware SPI bus (SPI0).
 
 Sets all module segments to the "dark" state. Clear the internal buffer.
 
-### `display(number: int, position: int, width: int, flags: int = SEGM8_ALIGN_RIGHT) -> None`
+### `display_int(number: int, position: int, width: int, flags: int = SEGM8_ALIGN_RIGHT) -> None`
 
-### `display(number: float, position: int, width: int, precision: int = 1, flags: int = SEGM8_ALIGN_LEFT) -> None`
+Prints a `number` of type **int** of a fixed `width` starting with the `position`to the output
+buffer using formatting `flags`. Moves the contents of the buffer to the indicator daisy-chain.
 
-### `display(string: str, position: int, width: int, flags: int = SEGM8_ALIGN_LEFT) -> None`
+- `number`: integer number.
+- `position`: starting position of the output of a number in the internal buffer.
+- `width`: the number of elements in the internal buffer, and accordingly the number of SegM8
+  modules needed to display a number.
+- `flags`: formatting flags. You can add somewhat consistent flags separated by `|` sign.
 
-Prints a number or a text line of a fixed `width` starting with the `position`to the output buffer
-using formatting `flags`. Moves the contents of the buffer to the indicator daisy-chain.
+Available formatting flags:
+
+- `segm8.Align.RIGHT` – align to the right corner. Default state.
+- `segm8.Align.LEFT` – align to the left corner.
+- `segm8.Align.PAD_ZEROS` – add leading zeros before the number. Compatible only with
+  `segm8.Align.RIGHT`.
+- `segm8.NumberSystem.DEC` – use the decimal numeral system. Default state.
+- `segm8.NumberSystem.HEX` – use the hexadecimal numeral system. Only for unsigned int numbers.
+
+### `display_float(number: float, position: int, width: int, precision: int = 1, flags: int = SEGM8_ALIGN_LEFT) -> None`
+
+Prints a `number` of type **float** of a fixed `width` starting with the `position`to the output
+buffer using formatting `flags`. The `precision` determines the number of digits to be printed after
+the decimal point. Moves the contents of the buffer to the indicator daisy-chain.
+Note: the `.` sign does not occupy a separate module and is displayed with the previous character.
+
+- `number`: floating point number.
+- `position`: starting position of the output of a number in the internal buffer.
+- `width`: the number of elements in the internal buffer, and accordingly the number of SegM8
+  modules needed to display a number.
+- `precision`: decimal places count of float.
+- `flags`: formatting flags. You can add somewhat consistent flags separated by `|` sign.
+
+Available formatting flags:
+
+- `segm8.Align.RIGHT` – align to the right corner. Default state.
+- `segm8.Align.LEFT` – align to the left corner.
+- `segm8.Align.PAD_ZEROS` – add leading zeros before the number. Compatible only with
+  `segm8.Align.RIGHT`.
+
+### `display_string(string: str, position: int, width: int, flags: int = SEGM8_ALIGN_LEFT) -> None`
+
+Prints a `string` of a fixed `width` starting with the `position` to the output buffer using
+formatting `flags`. Moves the contents of the buffer to the indicator daisy-chain.
 Note: the `.` sign does not occupy a separate module and is displayed with the previous character.
 
 When printing text strings, the interpretation of characters in indicator segments is used. Instead
 of unsupported characters (e.g. **K, M, V, W, X, Z**) an overline is displayed (segment a).
 
-- `number`: integer or floating point numbers.
 - `string`: text line.
-- `position`: starting position of the output of a string or number in the internal buffer.
+- `position`: starting position of the output of a string in the internal buffer.
 - `width`: the number of elements in the internal buffer, and accordingly the number of SegM8
   modules needed to display a number or a text.
-- `precision`: decimal places count of float.
-- `flag`: formatting flags. You can add somewhat consistent flags separated by `|` sign.
+- `flags`: formatting flags.
 
 Available formatting flags:
 
-- `SEGM8_ALIGN_RIGHT` – align to the right corner. Default state.
-- `SEGM8_ALIGN_LEFT` – align to the left corner.
-- `SEGM8_PAD_ZEROS` – add leading zeros before the number. Compatible only with `SEGM8_ALIGN_RIGHT`.
-- `SEGM8_RADIX_10` – use the decimal numeral system. Default state.
-- `SEGM8_RADIX_16` – use the hexadecimal numeral system. Only for unsigned int numbers.
+- `segm8.Align.RIGHT` – align to the right corner. Default state.
+- `segm8.Align.LEFT` – align to the left corner.
 
 ### `write_segments(mask: List[bool], device_index: int) -> None`
 
