@@ -9,6 +9,8 @@ indicator modules](https://my.amperka.com/modules/SegM8).
 
 Construct a new SegM8 object that uses the default hardware SPI bus (SPI0).
 
+Parameters:
+
 - `pin_CE`: the chip enable (also known as chip select or slave select) pin used to control the
   shift-register latch. It can take the values **0** or **1**, which corresponds to the **CE0** or
   **CE1** pins on the Raspberry Pi board.
@@ -19,48 +21,48 @@ Construct a new SegM8 object that uses the default hardware SPI bus (SPI0).
 
 Sets all module segments to the "dark" state. Clear the internal buffer.
 
-### `display_int(number: int, position: int, width: int, flags: int = SEGM8_ALIGN_RIGHT) -> None`
+### `display_int(number: int, position: int, width: int, align: int = segm8.Align.RIGHT, pad_zeros: bool = False, radix: int = segm8.NumberSystem.DEC) -> None`
 
-Prints a `number` of type **int** of a fixed `width` starting with the `position`to the output
-buffer using formatting `flags`. Moves the contents of the buffer to the indicator daisy-chain.
+Prints a `number` of type **int** of a fixed `width` starting with the `position` to the output
+buffer. Moves the contents of the buffer to the indicator daisy-chain.
+
+Parameters:
 
 - `number`: integer number.
 - `position`: starting position of the output of a number in the internal buffer.
 - `width`: the number of elements in the internal buffer, and accordingly the number of SegM8
   modules needed to display a number.
-- `flags`: formatting flags. You can add somewhat consistent flags separated by `|` sign.
 
-Available formatting flags:
+Optional parameters:
 
-- `segm8.Align.RIGHT` – align to the right corner. Default state.
-- `segm8.Align.LEFT` – align to the left corner.
-- `segm8.Align.PAD_ZEROS` – add leading zeros before the number. Compatible only with
-  `segm8.Align.RIGHT`.
-- `segm8.NumberSystem.DEC` – use the decimal numeral system. Default state.
-- `segm8.NumberSystem.HEX` – use the hexadecimal numeral system. Only for unsigned int numbers.
+- `align`: output alignment method: `segm8.Align.RIGHT` – align to the right corner (default state),
+  `segm8.Align.LEFT` – align to the left corner.
+- `pad_zeros`: add leading zeros before the number. Compatible only with `segm8.Align.RIGHT`.
+- `radix`: number system. Determines in which number system the output will be presented:
+  `segm8.NumberSystem.DEC` – decimal, `segm8.NumberSystem.HEX` – hexadecimal.
 
-### `display_float(number: float, position: int, width: int, precision: int = 1, flags: int = SEGM8_ALIGN_LEFT) -> None`
+### `display_float(number: float, position: int, width: int, precision: int = 1, align: int = segm8.Align.LEFT, pad_zeros: bool = False) -> None`
 
 Prints a `number` of type **float** of a fixed `width` starting with the `position`to the output
 buffer using formatting `flags`. The `precision` determines the number of digits to be printed after
 the decimal point. Moves the contents of the buffer to the indicator daisy-chain.
 Note: the `.` sign does not occupy a separate module and is displayed with the previous character.
 
+Parameters:
+
 - `number`: floating point number.
 - `position`: starting position of the output of a number in the internal buffer.
 - `width`: the number of elements in the internal buffer, and accordingly the number of SegM8
   modules needed to display a number.
+
+Optional parameters:
+
 - `precision`: decimal places count of float.
-- `flags`: formatting flags. You can add somewhat consistent flags separated by `|` sign.
+- `align`: output alignment method: `segm8.Align.RIGHT` – align to the right corner,
+  `segm8.Align.LEFT` – align to the left corner (default state).
+- `pad_zeros`: add leading zeros before the number. Compatible only with `segm8.Align.RIGHT`.
 
-Available formatting flags:
-
-- `segm8.Align.RIGHT` – align to the right corner. Default state.
-- `segm8.Align.LEFT` – align to the left corner.
-- `segm8.Align.PAD_ZEROS` – add leading zeros before the number. Compatible only with
-  `segm8.Align.RIGHT`.
-
-### `display_string(string: str, position: int, width: int, flags: int = SEGM8_ALIGN_LEFT) -> None`
+### `display_string(string: str, position: int, width: int, align: int = segm8.Align.LEFT) -> None`
 
 Prints a `string` of a fixed `width` starting with the `position` to the output buffer using
 formatting `flags`. Moves the contents of the buffer to the indicator daisy-chain.
@@ -69,16 +71,17 @@ Note: the `.` sign does not occupy a separate module and is displayed with the p
 When printing text strings, the interpretation of characters in indicator segments is used. Instead
 of unsupported characters (e.g. **K, M, V, W, X, Z**) an overline is displayed (segment a).
 
+Parameters:
+
 - `string`: text line.
 - `position`: starting position of the output of a string in the internal buffer.
 - `width`: the number of elements in the internal buffer, and accordingly the number of SegM8
   modules needed to display a number or a text.
-- `flags`: formatting flags.
 
-Available formatting flags:
+Optional parameter:
 
-- `segm8.Align.RIGHT` – align to the right corner. Default state.
-- `segm8.Align.LEFT` – align to the left corner.
+- `align`: output alignment method: `segm8.Align.RIGHT` – align to the right corner,
+  `segm8.Align.LEFT` – align to the left corner (default state).
 
 ### `write_segments(mask: List[bool], device_index: int) -> None`
 
