@@ -7,7 +7,11 @@ environment you are using it.
 import spidev
 from . import font
 from .output_format import Align, NumberSystem
-from .segm8_exceptions import DataOutOfWidth, OutOfDeviceRange
+from .segm8_exceptions import (
+    DataOutOfWidth,
+    OutOfDeviceRange,
+    IncompatibleFlag,
+)
 
 
 class SegM8:
@@ -80,7 +84,10 @@ class SegM8:
             Add leading zeros before the number. Compatible only with
             segm8.Align.RIGHT.
         radix: int
-            Number system.
+            Number system. Determines in which number system the output
+            will be presented: segm8.NumberSystem.DEC – decimal,
+            segm8.NumberSystem.HEX – hexadecimal (compatible only with
+            non-negative numbers).
 
         Returns:
         --------
@@ -88,7 +95,7 @@ class SegM8:
         """
         if radix == NumberSystem.DEC:
             split_number = list(str(number))
-        elif radix == NumberSystem.HEX:
+        elif radix == NumberSystem.HEX and number >= 0:
             # Remove "0x" from sequence.
             split_number = list(hex(number)[2:])
             for i, char in enumerate(split_number):
@@ -96,6 +103,11 @@ class SegM8:
                 # the font.
                 if char in ("a", "e", "f"):
                     split_number[i] = char.upper()
+        elif radix == NumberSystem.HEX and number < 0:
+            raise IncompatibleFlag(
+                'The "NumberSystem.HEX" parameter is incompatible with a '
+                + "negative number."
+            )
         placeholder = "0" if pad_zeros and align == Align.RIGHT else " "
         self._display(split_number, position, width, align, placeholder)
 

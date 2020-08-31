@@ -39,7 +39,8 @@ Optional parameters:
   `segm8.Align.LEFT` – align to the left corner.
 - `pad_zeros`: add leading zeros before the number. Compatible only with `segm8.Align.RIGHT`.
 - `radix`: number system. Determines in which number system the output will be presented:
-  `segm8.NumberSystem.DEC` – decimal, `segm8.NumberSystem.HEX` – hexadecimal.
+  `segm8.NumberSystem.DEC` – decimal, `segm8.NumberSystem.HEX` – hexadecimal (compatible only with
+  non-negative numbers).
 
 ### `display_float(number: float, position: int, width: int, precision: int = 1, align: int = segm8.Align.LEFT, pad_zeros: bool = False) -> None`
 
