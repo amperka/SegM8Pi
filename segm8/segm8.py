@@ -217,7 +217,7 @@ class SegM8:
         """The destructor is used to set all segments of all modules to
         the "dark" state and to close the SPI connection."""
         self._data = [font.FONT[" "]] * self._device_count
-        self._spi.writebytes(self._data)
+        self._send_data()
         self._spi.close()
 
     def _spi_init(self, bus, pin_CE):
