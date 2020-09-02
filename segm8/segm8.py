@@ -34,11 +34,12 @@ class SegM8:
         """
         self._pin_CE = pin_CE
         self._device_count = device_count
-        # Set the internal buffer to the "dark" state.
-        self._data = [font.FONT[" "]] * self._device_count
         # Create an SPI object on the "0" SPI bus and connected to
         # "pin_CE".
-        self._spi = self._spi_init(0, pin_CE)
+        self._spi = self._spi_init(0, self._pin_CE)
+        # Set the internal buffer to the "dark" state.
+        self._data = [font.FONT[" "]] * self._device_count
+        self._send_data()
 
     def clear(self):
         """Sets all module segments to the "dark" state. Clear the
