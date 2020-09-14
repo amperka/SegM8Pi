@@ -237,7 +237,7 @@ class SegM8:
         """
         spi = spidev.SpiDev()
         spi.open(bus, pin_CE)
-        spi.max_speed_hz = 62500000
+        spi.max_speed_hz = 122000
         spi.mode = 0
         return spi
 
@@ -357,9 +357,17 @@ def create_format_data(raw_data, width, align, placeholder=" "):
     """
     format_data = [font.FONT.get(val, font.FONT["DFLT"]) for val in raw_data]
     if font.FONT["."] in format_data:
-        dot_index = format_data.index(font.FONT["."])
-        format_data[dot_index - 1] |= font.FONT["."]
-        del format_data[dot_index]
+        dot_indexes = []
+        for index, data in enumerate(format_data):
+            if (
+                data == font.FONT["."]
+                and index != 0
+                and format_data[index - 1] != font.FONT["."]
+            ):
+                dot_indexes.append(index)
+                format_data[index - 1] |= font.FONT["."]
+        for index in sorted(dot_indexes, reverse=True):
+            del format_data[index]
 
     if len(format_data) < width:
         place_count = width - len(format_data)
