@@ -237,7 +237,7 @@ class SegM8:
         """
         spi = spidev.SpiDev()
         spi.open(bus, pin_CE)
-        spi.max_speed_hz = 122000
+        spi.max_speed_hz = 4000000
         spi.mode = 0
         return spi
 
