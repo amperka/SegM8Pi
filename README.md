@@ -47,7 +47,7 @@ import segm8
 # Create an object for working with the Segm8 module.
 segm8_module = segm8.SegM8(0, 1)
 
-# Display numbers from 9 to 0.
+# Display numbers from 0 to 9.
 for number in range(10):
     segm8_module.display_int(number, 0, 1)
     time.sleep(1)
